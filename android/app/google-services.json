@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "774583639375",
+    "project_id": "thesis-ourhospice",
+    "storage_bucket": "thesis-ourhospice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774583639375:android:d720abd57ea218e787b93a",
+        "android_client_info": {
+          "package_name": "com.example.thesis_hospicesystem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmPXtDHg3C0b6ka0fL3KuCytTK_vgIAXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
