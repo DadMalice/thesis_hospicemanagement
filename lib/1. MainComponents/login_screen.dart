@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:thesis_hospicesystem/navigation_menu.dart';
-import 'package:thesis_hospicesystem/auth.dart';
+import 'package:thesis_hospicesystem/1.%20MainComponents/navigation_menu.dart';
+import 'package:thesis_hospicesystem/1.%20MainComponents/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

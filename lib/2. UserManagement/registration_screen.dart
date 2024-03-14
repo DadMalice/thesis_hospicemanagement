@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:thesis_hospicesystem/navigation_menu.dart';
+import 'package:thesis_hospicesystem/1.%20MainComponents/navigation_menu.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});

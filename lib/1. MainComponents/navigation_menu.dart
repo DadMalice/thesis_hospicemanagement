@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-import 'package:thesis_hospicesystem/management_screen.dart';
-import 'package:thesis_hospicesystem/UserManagement/registration_screen.dart';
+import 'package:thesis_hospicesystem/1.%20MainComponents/management_screen.dart';
+import 'package:thesis_hospicesystem/2.%20UserManagement/registration_screen.dart';
 
 import 'dashboard_screen.dart';
-import 'profile_screen.dart';
-import 'messages_screen.dart';
+import '../2. UserManagement/profile_screen.dart';
+import '../6. Messaging/messages_screen.dart';
 import 'settings_screen.dart';
 
 class NavigationMenu extends StatefulWidget {
@@ -100,7 +100,6 @@ class _NavigationMenuState extends State<NavigationMenu> {
           index: _selectedIndex,
           children: const <Widget>[
             DashboardScreen(),
-            Register(),
             MessagesScreen(),
             ProfileScreen(),
             SettingsScreen(),
@@ -111,12 +110,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
           onTap: _selectedTab,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard_rounded),
+              icon: Icon(Icons.home_filled),
               label: 'Dashboard',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_box_rounded),
-              label: 'Management',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.message),
