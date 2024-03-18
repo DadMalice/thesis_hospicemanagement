@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thesis_hospicesystem/2.%20UserManagement/circular_image.dart';
+import 'package:thesis_hospicesystem/2.%20UserManagement/profile_avatar.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -9,7 +9,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  static const String userImg = "/assets/images/defaultuserImg.png";
+  static const String userImg = "/assets/images/defaultuserImg.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +21,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               child: Column(
                 children: [
-                  Column(
-                    children: [
-                      CircularImageWidget(
-                        imageUrl: userImg,
-                        size: 100.0,
-                      ),
-                    ],
+                  Center(
+                    child: Column(
+                      children: [
+                        ProfileAvatar(),
+                      ],
+                    ),
                   )
                 ],
               )),
