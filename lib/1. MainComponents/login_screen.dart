@@ -64,12 +64,12 @@ class _LoginScreenState extends State<LoginScreen> {
     User? user = await _auth.loginInWithEmailAndPassword(email, password);
 
     if (user != null) {
-      // Navigate to the dashboard screen upon successful login
-      //Navigator.of(context).pushReplacement(
-      //MaterialPageRoute(builder: (context) => DashboardScreen()),
-      // ignore: use_build_context_synchronously
+      // Get UID of the logged-in user
+      String currentUID = FirebaseAuth.instance.currentUser!.uid;
+
+      // Navigate to the NavigationMenu screen and pass the UID
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const NavigationMenu()),
+        MaterialPageRoute(builder: (context) => NavigationMenu(currentuid: currentUID)),
       );
     } else {
       // Show error dialog if login fails
@@ -160,8 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : () => _handleLogin(context),
                     style: ButtonStyle(
-                      minimumSize: MaterialStateProperty.all(
-                          const Size(double.infinity, 50)),
+                      minimumSize: MaterialStateProperty.all(const Size(double.infinity, 50)),
                     ),
                     child: _isLoading
                         ? const Padding(

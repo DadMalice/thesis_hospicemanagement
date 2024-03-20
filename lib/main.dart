@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+// ignore: unused_import
 import 'package:thesis_hospicesystem/1.%20MainComponents/dashboard_screen.dart';
 // ignore: unused_import
 import 'package:thesis_hospicesystem/1.%20MainComponents/login_screen.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.green),
-      home: const NavigationMenu(),
+      home: const LoginScreen(),
     );
   }
 }

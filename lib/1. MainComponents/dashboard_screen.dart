@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final String currentuid;
+  DashboardScreen({Key? key, required this.currentuid}) : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -10,9 +11,9 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Dashboard Screen'),
+        child: Text('UserID Logged in: ${widget.currentuid}'),
       ),
     );
   }

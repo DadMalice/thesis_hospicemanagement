@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'package:thesis_hospicesystem/1.%20MainComponents/management_screen.dart';
+// ignore: unused_import
 import 'package:thesis_hospicesystem/2.%20UserManagement/registration_screen.dart';
 
 import 'dashboard_screen.dart';
@@ -10,15 +11,18 @@ import '../6. Messaging/messages_screen.dart';
 import 'settings_screen.dart';
 
 class NavigationMenu extends StatefulWidget {
-  const NavigationMenu({super.key});
+  final String currentuid;
+
+  const NavigationMenu({required this.currentuid, Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _NavigationMenuState createState() => _NavigationMenuState();
 }
 
 class _NavigationMenuState extends State<NavigationMenu> {
   int _selectedIndex = 0;
+
+  String currentUID = FirebaseAuth.instance.currentUser!.uid;
 
   void _selectedTab(int index) {
     setState(() {
@@ -37,11 +41,11 @@ class _NavigationMenuState extends State<NavigationMenu> {
         ),
         body: IndexedStack(
           index: _selectedIndex,
-          children: const <Widget>[
-            DashboardScreen(),
+          children: <Widget>[
+            DashboardScreen(currentuid: currentUID),
             ManagementScreen(),
             MessagesScreen(),
-            ProfileScreen(),
+            ProfileScreen(currentuid: currentUID),
             SettingsScreen(),
           ],
         ),
@@ -98,11 +102,11 @@ class _NavigationMenuState extends State<NavigationMenu> {
       return Scaffold(
         body: IndexedStack(
           index: _selectedIndex,
-          children: const <Widget>[
-            DashboardScreen(),
+          children: <Widget>[
+            DashboardScreen(currentuid: currentUID),
             MessagesScreen(),
-            ProfileScreen(),
-            SettingsScreen(),
+            ProfileScreen(currentuid: currentUID),
+            Register(currentuid: currentUID),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -127,12 +131,9 @@ class _NavigationMenuState extends State<NavigationMenu> {
             ),
           ],
           selectedItemColor: Colors.green, // Set selected item color to black
-          unselectedItemColor:
-              Colors.black, // Set unselected item color to black
-          selectedLabelStyle: const TextStyle(
-              color: Colors.black), // Set selected label color to black
-          unselectedLabelStyle: const TextStyle(
-              color: Colors.black), // Set unselected label color to black
+          unselectedItemColor: Colors.black, // Set unselected item color to black
+          selectedLabelStyle: const TextStyle(color: Colors.black), // Set selected label color to black
+          unselectedLabelStyle: const TextStyle(color: Colors.black), // Set unselected label color to black
         ),
       );
     }
