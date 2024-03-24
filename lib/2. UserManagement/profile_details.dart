@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 
 class ProfileDetails extends StatelessWidget {
   const ProfileDetails({
-    super.key,
-    required this.onPressed,
+    Key? key,
     required this.title,
     required this.value,
-    this.icon = Icons.arrow_right,
-  });
+    required this.onPressed,
+  }) : super(key: key);
 
-  final IconData icon;
+  final String title;
+  final String value;
   final VoidCallback onPressed;
-  final String title, value;
 
   @override
   Widget build(BuildContext context) {
+    final bool canEdit = title != 'Name' && title != 'Email' && title != 'Position';
+
     return GestureDetector(
       onTap: onPressed,
       child: Padding(
@@ -37,7 +38,10 @@ class ProfileDetails extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            const Expanded(child: Icon(Icons.arrow_right, size: 18)),
+            if (canEdit)
+              const Expanded(
+                child: Icon(Icons.edit, size: 14),
+              ),
           ],
         ),
       ),

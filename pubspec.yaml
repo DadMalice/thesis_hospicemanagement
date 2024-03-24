@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: ^4.17.5
   cloud_firestore: ^4.15.5
   popover: ^0.3.0
+  flutter_datetime_picker_plus: ^2.1.0
 
 dev_dependencies:
   flutter_test:
