@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as DatePicker;
+import 'package:image_picker/image_picker.dart';
 import 'package:thesis_hospicesystem/1.%20MainComponents/login_screen.dart';
 import 'package:thesis_hospicesystem/1.%20MainComponents/section_heading.dart';
-import 'package:thesis_hospicesystem/2.%20UserManagement/profile_avatar.dart';
 import 'package:thesis_hospicesystem/2.%20UserManagement/profile_details.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -18,8 +19,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  static const String userImg = "/assets/images/defaultuserImg.jpg";
-
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _roleController;
@@ -28,12 +27,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late TextEditingController _addressController;
   late TextEditingController _birthDateController;
 
+  File? _image;
+  final picker = ImagePicker();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   final TextEditingController editAge = TextEditingController();
   final TextEditingController editGender = TextEditingController();
   final TextEditingController editAddress = TextEditingController();
   final TextEditingController editDateOfBirth = TextEditingController();
 
   String? uid;
+  String? _profilePictureUrl;
 
   @override
   void initState() {
@@ -81,10 +86,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width: double.infinity,
                           child: Column(
                             children: [
-                              const ProfileAvatar(),
+                              // Display profile picture
+                              _profilePictureUrl != null
+                                  ? CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage: NetworkImage(_profilePictureUrl!),
+                                    )
+                                  : const CircleAvatar(
+                                      radius: 60,
+                                      child: Icon(Icons.account_circle, size: 100),
+                                    ),
                               TextButton(
                                 onPressed: () {
-                                  // Changeing Profile Picture
+                                  _pickImage();
                                 },
                                 child: const Text('Change Profile Picture'),
                               )
@@ -189,30 +203,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void fetchUserProfile() {
+  void fetchUserProfile() async {
     final uid = widget.currentuid;
     if (uid != null) {
-      FirebaseFirestore.instance.collection('users').doc(uid).get().then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          final userData = documentSnapshot.data() as Map<String, dynamic>;
-          if (userData != null) {
-            setState(() {
-              final firstName = userData['first name'] ?? '';
-              final lastName = userData['last name'] ?? '';
-              final fullName = '$firstName $lastName';
-              _nameController.text = fullName.isNotEmpty ? fullName : 'Undefined';
-              _emailController.text = userData['email'] ?? 'Undefined';
-              _roleController.text = userData['role'] ?? 'Undefined';
-              _ageController.text = userData['age'] ?? 'Undefined';
-              _genderController.text = userData['gender'] ?? 'Undefined';
-              _addressController.text = userData['address'] ?? 'Undefined';
-              _birthDateController.text = userData['birthdate'] ?? 'Undefined';
-            });
-          }
+      try {
+        final userData = (await FirebaseFirestore.instance.collection('users').doc(uid).get()).data();
+        if (userData != null) {
+          setState(() {
+            final firstName = userData['first name'] ?? '';
+            final lastName = userData['last name'] ?? '';
+            final fullName = '$firstName $lastName';
+            _nameController.text = fullName.isNotEmpty ? fullName : 'Undefined';
+            _emailController.text = userData['email'] ?? 'Undefined';
+            _roleController.text = userData['role'] ?? 'Undefined';
+            _ageController.text = userData['age'] ?? 'Undefined';
+            _genderController.text = userData['gender'] ?? 'Undefined';
+            _addressController.text = userData['address'] ?? 'Undefined';
+            _birthDateController.text = userData['birthdate'] ?? 'Undefined';
+            final profilePictureFileName = '$firstName.jpg';
+            getProfilePictureUrl(uid, profilePictureFileName);
+          });
         }
-      }).catchError((error) {
+      } catch (error) {
         print('Error fetching user profile: $error');
+      }
+    }
+  }
+
+  void getProfilePictureUrl(String userId, String fileName) async {
+    try {
+      final Reference ref = FirebaseStorage.instance.ref().child('profile_pictures/$userId/$fileName');
+      final String downloadUrl = await ref.getDownloadURL();
+      setState(() {
+        _profilePictureUrl = downloadUrl;
+        print('Profile Picture URL loaded successfully');
       });
+    } catch (error) {
+      print('Error getting profile picture URL: $error');
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        _uploadProfilePicture();
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<void> _uploadProfilePicture() async {
+    try {
+      if (_image != null) {
+        final uid = widget.currentuid;
+        final firstName = _nameController.text.split(' ')[0]; // Get the first name
+        if (uid != null) {
+          // Upload image to Firebase Storage with the user's first name as the file name
+          final Reference ref = FirebaseStorage.instance.ref().child('profile_pictures/$uid/$firstName.jpg');
+          final UploadTask uploadTask = ref.putFile(_image!);
+
+          // Get download URL and update user profile
+          final TaskSnapshot taskSnapshot = await uploadTask;
+          final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+          // Update user profile with the new profile picture URL
+          await _firestore.collection('users').doc(uid).update({
+            'profile_picture': downloadUrl,
+          });
+          setState(() {
+            // Reload the app when the profile picture is uploaded
+            _profilePictureUrl = downloadUrl;
+          });
+          print('Profile picture loaded successfully.');
+        }
+      }
+    } catch (e) {
+      print('Error uploading profile picture: $e');
     }
   }
 
