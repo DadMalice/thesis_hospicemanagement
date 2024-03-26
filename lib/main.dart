@@ -11,11 +11,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AIzaSyDmPXtDHg3C0b6ka0fL3KuCytTK_vgIAXE",
-      appId: "1:774583639375:android:d720abd57ea218e787b93a",
-      messagingSenderId: "774583639375",
-      projectId: "thesis-ourhospice",
-    ),
+        apiKey: "AIzaSyDmPXtDHg3C0b6ka0fL3KuCytTK_vgIAXE",
+        appId: "1:774583639375:android:d720abd57ea218e787b93a",
+        messagingSenderId: "774583639375",
+        projectId: "thesis-ourhospice",
+        authDomain: "thesis-ourhospice.firebaseapp.com",
+        storageBucket: "thesis-ourhospice.appspot.com",
+        measurementId: "G-NJXMV14TT1"),
   );
   runApp(const MyApp());
 }
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.green),
       home: const LoginScreen(),
     );

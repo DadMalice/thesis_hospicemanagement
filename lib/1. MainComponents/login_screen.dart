@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thesis_hospicesystem/1.%20MainComponents/navigation_menu.dart';
@@ -15,6 +16,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthService _auth = AuthService();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  String hardcodedEmail = 'brent@admin.com';
+  String hardcodedPassword = '123123';
+
   bool _isLoading = false;
   final _showErrorMessage = false;
 
@@ -81,12 +86,26 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  late double sidePadding;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.text = hardcodedEmail;
+    passwordController.text = hardcodedPassword;
+
+    if (kIsWeb) {
+      sidePadding = 120.0;
+    } else {
+      sidePadding = 20.0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    const double sidePadding = 20.0;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: sidePadding),
+        padding: EdgeInsets.symmetric(horizontal: sidePadding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,

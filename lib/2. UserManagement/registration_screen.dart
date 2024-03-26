@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,14 +48,23 @@ class _RegisterState extends State<Register> {
   var _currentItemSelected = "Patient";
   var role = "Patient";
 
+  late double sidePadding;
+
+  @override
+  void initState() {
+    super.initState();
+    if (kIsWeb) {
+      sidePadding = 240.0;
+    } else {
+      sidePadding = 20.0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    const double sidePadding = 20.0;
-    // ignore: unused_local_variable
-    const bool creationSuccess = false;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: sidePadding),
+        padding: EdgeInsets.symmetric(horizontal: sidePadding),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

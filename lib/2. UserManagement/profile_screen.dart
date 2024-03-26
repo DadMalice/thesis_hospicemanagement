@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,6 +20,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  double sidePadding = 20.0;
+  double topPadding = 25.0;
+
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _roleController;
@@ -43,6 +47,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    if (kIsWeb) {
+      sidePadding = 240.0;
+      topPadding = 50;
+    } else {
+      sidePadding = 20.0;
+      topPadding = 25;
+    }
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _roleController = TextEditingController();
@@ -57,6 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(75.0),
@@ -73,131 +85,131 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.all(24),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: sidePadding, vertical: topPadding),
+          child: SingleChildScrollView(
               child: Column(
-                children: [
-                  Center(
-                    child: Column(
-                      children: [
-                        ///Profile Picture
-                        SizedBox(
-                          width: double.infinity,
-                          child: Column(
-                            children: [
-                              // Display profile picture
-                              _profilePictureUrl != null
-                                  ? CircleAvatar(
-                                      radius: 60,
-                                      backgroundImage: NetworkImage(_profilePictureUrl!),
-                                    )
-                                  : const CircleAvatar(
-                                      radius: 60,
-                                      child: Icon(Icons.account_circle, size: 100),
-                                    ),
-                              TextButton(
-                                onPressed: () {
-                                  _pickImage();
-                                },
-                                child: const Text('Change Profile Picture'),
-                              )
-                            ],
-                          ),
-                        ),
-
-                        ///Profile Details
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Divider(),
-                        const SizedBox(height: 10),
-                        const SectionHeading(
-                          title: 'Profile Information',
-                          showActionButton: false,
-                        ),
-                        const SizedBox(height: 12),
-
-                        ProfileDetails(
-                          title: 'Name',
-                          value: _nameController.text,
-                          onPressed: () {},
-                        ),
-                        ProfileDetails(
-                          title: 'Email',
-                          value: _emailController.text,
-                          onPressed: () {},
-                        ),
-                        ProfileDetails(
-                          title: 'Position',
-                          value: _roleController.text,
-                          onPressed: () {},
-                        ),
-                        const SizedBox(height: 10),
-                        const Divider(),
-                        const SizedBox(height: 10),
-                        const SectionHeading(
-                          title: 'Personal Information',
-                          showActionButton: false,
-                        ),
-                        const SizedBox(height: 10),
-                        ProfileDetails(
-                          title: 'Age',
-                          value: _ageController.text,
-                          onPressed: () {
-                            showEditDetailDialog(context, 'Update Age');
-                          },
-                        ),
-
-                        ProfileDetails(
-                          title: 'Gender',
-                          value: _genderController.text,
-                          onPressed: () {
-                            showEditDetailDialog(context, 'Update Gender');
-                          },
-                        ),
-                        ProfileDetails(
-                          title: 'Address',
-                          value: _addressController.text,
-                          onPressed: () {
-                            showEditDetailDialog(context, 'Update Address');
-                          },
-                        ),
-                        ProfileDetails(
-                          title: 'Date of Birth',
-                          value: _birthDateController.text,
-                          onPressed: () {
-                            showEditDetailDialog(context, 'Update Date Of Birth');
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        TextButton(
-                          onPressed: () async {
-                            try {
-                              await FirebaseAuth.instance.signOut();
-                              print("Sign out SUCCESS!");
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => LoginScreen()),
-                              );
-                            } catch (e) {
-                              print("Error signing out: $e");
-                            }
-                          },
-                          child: const Text(
-                            'Sign Out',
-                            style: TextStyle(
-                              color: Colors.red, // Customize the color if needed
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
+            children: [
+              Center(
+                child: Column(
+                  children: [
+                    ///Profile Picture
+                    SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+                          // Display profile picture
+                          _profilePictureUrl != null
+                              ? CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: NetworkImage(_profilePictureUrl!),
+                                )
+                              : const CircleAvatar(
+                                  radius: 60,
+                                  child: Icon(Icons.account_circle, size: 100),
+                                ),
+                          TextButton(
+                            onPressed: () {
+                              _pickImage();
+                            },
+                            child: const Text('Change Profile Picture'),
+                          )
+                        ],
+                      ),
                     ),
-                  )
-                ],
-              )),
+
+                    ///Profile Details
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    const SectionHeading(
+                      title: 'Profile Information',
+                      showActionButton: false,
+                    ),
+                    const SizedBox(height: 12),
+
+                    ProfileDetails(
+                      title: 'Name',
+                      value: _nameController.text,
+                      onPressed: () {},
+                    ),
+                    ProfileDetails(
+                      title: 'Email',
+                      value: _emailController.text,
+                      onPressed: () {},
+                    ),
+                    ProfileDetails(
+                      title: 'Position',
+                      value: _roleController.text,
+                      onPressed: () {},
+                    ),
+                    const SizedBox(height: 10),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    const SectionHeading(
+                      title: 'Personal Information',
+                      showActionButton: false,
+                    ),
+                    const SizedBox(height: 10),
+                    ProfileDetails(
+                      title: 'Age',
+                      value: _ageController.text,
+                      onPressed: () {
+                        showEditDetailDialog(context, 'Update Age');
+                      },
+                    ),
+
+                    ProfileDetails(
+                      title: 'Gender',
+                      value: _genderController.text,
+                      onPressed: () {
+                        showEditDetailDialog(context, 'Update Gender');
+                      },
+                    ),
+                    ProfileDetails(
+                      title: 'Address',
+                      value: _addressController.text,
+                      onPressed: () {
+                        showEditDetailDialog(context, 'Update Address');
+                      },
+                    ),
+                    ProfileDetails(
+                      title: 'Date of Birth',
+                      value: _birthDateController.text,
+                      onPressed: () {
+                        showEditDetailDialog(context, 'Update Date Of Birth');
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () async {
+                        try {
+                          await FirebaseAuth.instance.signOut();
+                          print("Sign out SUCCESS!");
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                          );
+                        } catch (e) {
+                          print("Error signing out: $e");
+                        }
+                      },
+                      child: const Text(
+                        'Sign Out',
+                        style: TextStyle(
+                          color: Colors.red, // Customize the color if needed
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )),
         ),
       ),
     );
@@ -236,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final String downloadUrl = await ref.getDownloadURL();
       setState(() {
         _profilePictureUrl = downloadUrl;
-        print('Profile Picture URL loaded successfully');
+        print('Profile Picture URL loaded successfully: $_profilePictureUrl');
       });
     } catch (error) {
       print('Error getting profile picture URL: $error');
