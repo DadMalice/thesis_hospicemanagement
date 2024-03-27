@@ -62,232 +62,239 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: sidePadding),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: const EdgeInsets.all(12),
-                child: Form(
-                  key: _formkey,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Text(
-                        "Account Creation",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 40,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: fnameController,
-                              decoration: const InputDecoration(
-                                hintText: "First Name",
-                                //prefixIcon: Icon(Icons.person, color: Colors.black),
+    return MaterialApp(
+        title: 'User Registration',
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: sidePadding,
+              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(12),
+                      child: Form(
+                        key: _formkey,
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "Account Creation",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 25,
                               ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "First name cannot be empty";
-                                }
-                                // Add your validation logic here for the first name.
-                                return null;
-                              },
-                              onChanged: (value) {},
-                              keyboardType: TextInputType.name,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: lnameController,
-                              decoration: const InputDecoration(
-                                hintText: "Last Name",
-                                //prefixIcon: Icon(Icons.person, color: Colors.black),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Last name cannot be empty";
-                                }
-                                // Add your validation logic here for the last name.
-                                return null;
-                              },
-                              onChanged: (value) {},
-                              keyboardType: TextInputType.name,
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        controller: emailController,
-                        decoration: const InputDecoration(
-                          hintText: "Email",
-                          prefixIcon: Icon(Icons.mail, color: Colors.black),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Email cannot be empty";
-                          }
-                          if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-                            return ("Please enter a valid email");
-                          } else {
-                            return null;
-                          }
-                        },
-                        onChanged: (value) {},
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        obscureText: _isObscure,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                          prefixIcon: const Icon(Icons.lock, color: Colors.black),
-                          suffixIcon: IconButton(
-                              icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
-                              onPressed: () {
-                                setState(() {
-                                  _isObscure = !_isObscure;
-                                });
-                              }),
-                        ),
-                        validator: (value) {
-                          RegExp regex = RegExp(r'^.{6,}$');
-                          if (value!.isEmpty) {
-                            return "Password cannot be empty";
-                          }
-                          if (!regex.hasMatch(value)) {
-                            return ("Please enter valid password minimum of 6 characters.");
-                          } else {
-                            return null;
-                          }
-                        },
-                        onChanged: (value) {},
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      TextFormField(
-                        obscureText: _isObscure2,
-                        controller: confirmpassController,
-                        decoration: InputDecoration(
-                          hintText: 'Confirm Password',
-                          prefixIcon: const Icon(Icons.lock, color: Colors.black),
-                          suffixIcon: IconButton(
-                              icon: Icon(_isObscure2 ? Icons.visibility_off : Icons.visibility),
-                              onPressed: () {
-                                setState(() {
-                                  _isObscure2 = !_isObscure2;
-                                });
-                              }),
-                        ),
-                        validator: (value) {
-                          if (confirmpassController.text != passwordController.text) {
-                            return "Password did not match";
-                          } else {
-                            return null;
-                          }
-                        },
-                        onChanged: (value) {},
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Role : ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          DropdownButton<String>(
-                            dropdownColor: Colors.green,
-                            isDense: false,
-                            isExpanded: false,
-                            iconEnabledColor: Colors.black,
-                            focusColor: Colors.black,
-                            padding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 12.0),
-                            items: options.map((String dropDownStringItem) {
-                              return DropdownMenuItem<String>(
-                                value: dropDownStringItem,
-                                child: Text(
-                                  dropDownStringItem,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: fnameController,
+                                    decoration: const InputDecoration(
+                                      hintText: "First Name",
+                                      //prefixIcon: Icon(Icons.person, color: Colors.black),
+                                    ),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "First name cannot be empty";
+                                      }
+                                      // Add your validation logic here for the first name.
+                                      return null;
+                                    },
+                                    onChanged: (value) {},
+                                    keyboardType: TextInputType.name,
                                   ),
                                 ),
-                              );
-                            }).toList(),
-                            onChanged: (newValueSelected) {
-                              setState(() {
-                                _currentItemSelected = newValueSelected!;
-                                role = newValueSelected;
-                              });
-                            },
-                            value: _currentItemSelected,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.50,
-                          child: Center(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                signUp(fnameController.text, lnameController.text, emailController.text,
-                                    passwordController.text, role, context);
-                              },
-                              style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.all(const Size(double.infinity, 50)),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: lnameController,
+                                    decoration: const InputDecoration(
+                                      hintText: "Last Name",
+                                      //prefixIcon: Icon(Icons.person, color: Colors.black),
+                                    ),
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Last name cannot be empty";
+                                      }
+                                      // Add your validation logic here for the last name.
+                                      return null;
+                                    },
+                                    onChanged: (value) {},
+                                    keyboardType: TextInputType.name,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              controller: emailController,
+                              decoration: const InputDecoration(
+                                hintText: "Email",
+                                prefixIcon: Icon(Icons.mail, color: Colors.black),
                               ),
-                              child: const Text(
-                                "Create Account",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Email cannot be empty";
+                                }
+                                if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+                                  return ("Please enter a valid email");
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              obscureText: _isObscure,
+                              controller: passwordController,
+                              decoration: InputDecoration(
+                                hintText: "Password",
+                                prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                                suffixIcon: IconButton(
+                                    icon: Icon(_isObscure ? Icons.visibility_off : Icons.visibility),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isObscure = !_isObscure;
+                                      });
+                                    }),
+                              ),
+                              validator: (value) {
+                                RegExp regex = RegExp(r'^.{6,}$');
+                                if (value!.isEmpty) {
+                                  return "Password cannot be empty";
+                                }
+                                if (!regex.hasMatch(value)) {
+                                  return ("Please enter valid password minimum of 6 characters.");
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onChanged: (value) {},
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              obscureText: _isObscure2,
+                              controller: confirmpassController,
+                              decoration: InputDecoration(
+                                hintText: 'Confirm Password',
+                                prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                                suffixIcon: IconButton(
+                                    icon: Icon(_isObscure2 ? Icons.visibility_off : Icons.visibility),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isObscure2 = !_isObscure2;
+                                      });
+                                    }),
+                              ),
+                              validator: (value) {
+                                if (confirmpassController.text != passwordController.text) {
+                                  return "Password did not match";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              onChanged: (value) {},
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Role : ",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                DropdownButton<String>(
+                                  dropdownColor: Colors.green,
+                                  isDense: false,
+                                  isExpanded: false,
+                                  iconEnabledColor: Colors.black,
+                                  focusColor: Colors.black,
+                                  padding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 12.0),
+                                  items: options.map((String dropDownStringItem) {
+                                    return DropdownMenuItem<String>(
+                                      value: dropDownStringItem,
+                                      child: Text(
+                                        dropDownStringItem,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (newValueSelected) {
+                                    setState(() {
+                                      _currentItemSelected = newValueSelected!;
+                                      role = newValueSelected;
+                                    });
+                                  },
+                                  value: _currentItemSelected,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Center(
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.50,
+                                child: Center(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      signUp(fnameController.text, lnameController.text, emailController.text,
+                                          passwordController.text, role, context);
+                                    },
+                                    style: ButtonStyle(
+                                      minimumSize: MaterialStateProperty.all(const Size(double.infinity, 50)),
+                                    ),
+                                    child: const Text(
+                                      "Create Account",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ]),
-      ),
-    );
+                    ),
+                  ]),
+            ),
+          ),
+        ));
   }
 
   Future<void> postDetailsToFirestore(

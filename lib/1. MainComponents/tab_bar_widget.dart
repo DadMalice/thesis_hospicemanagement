@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:thesis_hospicesystem/2.%20UserManagement/registration_screen.dart';
+import 'package:thesis_hospicesystem/2.%20UserManagement/usersearch_bar.dart';
 // Import your Register widget here
 
 class TabBarApp extends StatelessWidget {
@@ -47,9 +48,7 @@ class TabBarExample extends StatelessWidget {
                   // First tab's content
                   Register(currentuid: currentUID),
                   // Second tab's content
-                  const Center(
-                    child: Text("Edit User Profile"),
-                  ),
+                  UserSearch(),
                 ],
               ),
             ),

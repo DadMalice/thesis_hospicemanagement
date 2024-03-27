@@ -37,62 +37,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(75.0), // Increased height to accommodate top margin
-        child: AppBar(
-          backgroundColor: Colors.green,
-          elevation: 0,
-          centerTitle: true,
-          leading: Container(
-            margin: const EdgeInsets.only(top: 20.0, left: 5.0), // Adding top and right margins to leading widget
-            child: IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                // Open the side drawer when the menu icon is pressed
-                _scaffoldKey.currentState?.openDrawer();
-              },
-            ),
-          ),
-          title: Container(
-            margin: const EdgeInsets.only(top: 20.0), // Adding top margin to title
-            child: const Text(
-              'Dashboard',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          actions: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(top: 20.0, right: 5.0), // Adding top and left margins to action widget
-              child: IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  // Add your action widget functionality here
-                },
+    return MaterialApp(
+        title: 'Dashboard',
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          key: _scaffoldKey,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(75.0), // Increased height to accommodate top margin
+            child: AppBar(
+              backgroundColor: Colors.green,
+              elevation: 0,
+              centerTitle: true,
+              leading: Container(
+                margin: const EdgeInsets.only(top: 20.0, left: 5.0), // Adding top and right margins to leading widget
+                child: IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () {
+                    // Open the side drawer when the menu icon is pressed
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                ),
               ),
+              title: Container(
+                margin: const EdgeInsets.only(top: 20.0), // Adding top margin to title
+                child: const Text(
+                  'Dashboard',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              actions: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(top: 20.0, right: 5.0), // Adding top and left margins to action widget
+                  child: IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      // Add your action widget functionality here
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      drawer: FutureBuilder<String>(
-        future: getUserRole(widget.currentuid),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // While waiting for the future to complete, show a loading indicator
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            // If there's an error fetching the user role, display an error message
-            return Text('Error fetching user role');
-          } else {
-            // If the future completes successfully, pass the user role to the SideDrawer
-            return SideDrawer(userRole: snapshot.data ?? 'default');
-          }
-        },
-      ), // Add the SideDrawer widget here
-      body: Center(
-        child: Text('UserID Logged in: ${widget.currentuid}'),
-      ),
-    );
+          ),
+          drawer: FutureBuilder<String>(
+            future: getUserRole(widget.currentuid),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // While waiting for the future to complete, show a loading indicator
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                // If there's an error fetching the user role, display an error message
+                return Text('Error fetching user role');
+              } else {
+                // If the future completes successfully, pass the user role to the SideDrawer
+                return SideDrawer(userRole: snapshot.data ?? 'default');
+              }
+            },
+          ), // Add the SideDrawer widget here
+          body: Center(
+            child: Text('UserID Logged in: ${widget.currentuid}'),
+          ),
+        ));
   }
 }

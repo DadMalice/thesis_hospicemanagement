@@ -34,43 +34,46 @@ class _NavigationMenuState extends State<NavigationMenu> {
   @override
   Widget build(BuildContext context) {
     if (kIsWeb) {
-      return Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: <Widget>[
-            DashboardScreen(currentuid: currentUID),
-            MessagesScreen(),
-            ProfileScreen(currentuid: currentUID),
-            SettingsScreen(),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _selectedTab,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled),
-              label: 'Dashboard',
+      return MaterialApp(
+          title: 'OurHospice',
+          debugShowCheckedModeBanner: false,
+          home: Scaffold(
+            body: IndexedStack(
+              index: _selectedIndex,
+              children: <Widget>[
+                DashboardScreen(currentuid: currentUID),
+                MessagesScreen(),
+                ProfileScreen(currentuid: currentUID),
+                SettingsScreen(),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.message),
-              label: 'Inbox',
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _selectedTab,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_filled),
+                  label: 'Dashboard',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.message),
+                  label: 'Inbox',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                ),
+              ],
+              selectedItemColor: Colors.green, // Set selected item color to black
+              unselectedItemColor: Colors.black, // Set unselected item color to black
+              selectedLabelStyle: const TextStyle(color: Colors.black), // Set selected label color to black
+              unselectedLabelStyle: const TextStyle(color: Colors.black), // Set unselected label color to black
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
-          selectedItemColor: Colors.green, // Set selected item color to black
-          unselectedItemColor: Colors.black, // Set unselected item color to black
-          selectedLabelStyle: const TextStyle(color: Colors.black), // Set selected label color to black
-          unselectedLabelStyle: const TextStyle(color: Colors.black), // Set unselected label color to black
-        ),
-      );
+          ));
     } else {
       return Scaffold(
         body: IndexedStack(

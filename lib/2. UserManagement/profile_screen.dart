@@ -68,6 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'My Profile',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: PreferredSize(

@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:thesis_hospicesystem/1.%20MainComponents/tab_bar_widget.dart';
-import 'package:thesis_hospicesystem/2.%20UserManagement/editusers_screen.dart';
-import 'package:thesis_hospicesystem/2.%20UserManagement/registration_screen.dart'; // Import your TabBarApp file
+import 'package:thesis_hospicesystem/2.%20UserManagement/registration_screen.dart';
 
 class UserManagementScreen extends StatefulWidget {
   @override
